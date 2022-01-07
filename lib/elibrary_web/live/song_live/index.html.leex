@@ -15,18 +15,18 @@
   Search page
   <% end %>
 </h1>
-<button style="background-color: white"><%= live_patch "New Book", to: Routes.book_index_path(@socket, :new) %></button>
+<button style="background-color: white"><%= live_patch "New Song", to: Routes.song_index_path(@socket, :new) %></button>
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, ElibraryWeb.BookLive.FormComponent,
-    id: @book.id || :new,
+  <%= live_modal @socket, ElibraryWeb.SongLive.FormComponent,
+    id: @song.id || :new,
     title: @page_title,
     action: @live_action,
-    book: @book,
-    return_to: Routes.book_index_path(@socket, :index) %>
+    song: @song,
+    return_to: Routes.song_index_path(@socket, :index) %>
 <% end %>
 
 <div class="column column-10">
-  <%= for book <- @books do %>
-    <%= live_component @socket,  ElibraryWeb.BookLive.BookComponent, id: book.id, book: book %>
+  <%= for song <- @songs do %>
+    <%= live_component @socket,  ElibraryWeb.SongLive.SongComponent, id: song.id, song: song %>
   <% end %>
 </div>

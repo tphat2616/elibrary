@@ -1,19 +1,19 @@
-defmodule ElibraryWeb.BookLive.BookComponent do
+defmodule ElibraryWeb.SongLive.SongComponent do
   use ElibraryWeb, :live_component
 
   def render(assigns) do
     ~L"""
-    <div id="post-<%= @book.id %>" class="book">
+    <div id="post-<%= @song.id %>" class="book">
       <div class="row">
         <div class="column column-20">
-          <img src="/images/book.png" class="post-avatar"/>
+          <img src="/images/music.png" class="post-avatar"/>
         </div>
-        <b><%= @book.name %></b>
+        <b><%= @song.name %></b>
       </div>
       <div class="row">
         <div class="column column-90 post-body">
-          <%= if @book.description != nil do %>
-            <b><%= @book.description %></b>
+          <%= if @song.description != nil do %>
+            <b><%= @song.description %></b>
           <% else %>
             <b>...</b>
           <% end %>
@@ -22,7 +22,7 @@ defmodule ElibraryWeb.BookLive.BookComponent do
 
       <div class="row">
         <div class="column">
-        <%= live_patch to: Routes.book_index_path(@socket, :edit, @book.id) do %>
+        <%= live_patch to: Routes.song_index_path(@socket, :edit, @song.id) do %>
           <img style="height: 30px" src="/images/tag.png" class="icon-img"/>
         <% end %>
         </div>

@@ -9,11 +9,11 @@ defmodule ElibraryWeb.LiveHelpers do
 
   ## Examples
 
-      <%= live_modal @socket, ElibraryWeb.TweetLive.FormComponent,
-        id: @tweet.id || :new,
+      <%= live_modal @socket, ElibraryWeb.BookLive.FormComponent,
+        id: @book.id || :new,
         action: @live_action,
-        tweet: @tweet,
-        return_to: Routes.tweet_index_path(@socket, :index) %>
+        book: @book,
+        return_to: Routes.book_index_path(@socket, :index) %>
   """
   def live_modal(socket, component, opts) do
     path = Keyword.fetch!(opts, :return_to)

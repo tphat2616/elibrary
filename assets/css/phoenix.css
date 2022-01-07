@@ -28,6 +28,10 @@ select {
   width: auto;
 }
 
+#book-form_query{
+  width: 25%;
+}
+
 /* Phoenix promo and logo */
 .phx-hero {
   text-align: center;

@@ -1,12 +1,12 @@
-defmodule ElibraryWeb.BookLive.Index do
+defmodule ElibraryWeb.SongLive.Index do
   use ElibraryWeb, :live_view
 
-  alias Elibrary.Book
-  alias Elibrary.BookService
+  alias Elibrary.Song
+  alias Elibrary.SongService
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :books, BookService.list_books())}
+    {:ok, assign(socket, :songs, SongService.list_songs())}
   end
 
   @impl true
@@ -16,19 +16,19 @@ defmodule ElibraryWeb.BookLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Book")
-    |> assign(:book, %Book{})
+    |> assign(:page_title, "New Song")
+    |> assign(:song, %Song{})
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Tag")
-    |> assign(:book, BookService.get_book!(id))
+    |> assign(:song, SongService.get_song!(id))
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing books")
-    |> assign(:book, nil)
+    |> assign(:page_title, "Listing Songs")
+    |> assign(:song, nil)
   end
 end

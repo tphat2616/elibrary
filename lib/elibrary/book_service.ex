@@ -18,7 +18,7 @@ defmodule Elibrary.BookService do
 
   """
   def list_books do
-    Repo.all(from t in Book)
+    Repo.all(Book)
   end
 
   @doc """
@@ -51,7 +51,7 @@ defmodule Elibrary.BookService do
   """
   def create_book(attrs \\ %{}) do
     %Book{}
-    |> Label.changeset(attrs)
+    |> Book.changeset(attrs)
     |> Repo.insert()
   end
 

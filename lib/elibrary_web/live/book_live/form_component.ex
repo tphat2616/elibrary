@@ -13,25 +13,25 @@ defmodule ElibraryWeb.BookLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"tweet" => tweet_params}, socket) do
+  def handle_event("validate", %{"book" => book_params}, socket) do
     changeset =
-      socket.assigns.tweet
-      |> Timeline.change_tweet(tweet_params)
+      socket.assigns.book
+      |> BookService.change_book(book_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"tweet" => tweet_params}, socket) do
-    save_tweet(socket, socket.assigns.action, tweet_params)
+  def handle_event("save", %{"book" => book_params}, socket) do
+    save_book(socket, socket.assigns.action, book_params)
   end
 
-  defp save_tweet(socket, :edit, tweet_params) do
-    case Timeline.update_tweet(socket.assigns.tweet, tweet_params) do
-      {:ok, _tweet} ->
+  defp save_book(socket, :edit, book_params) do
+    case BookService.update_book(socket.assigns.book, book_params) do
+      {:ok, _book} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Tweet updated successfully")
+         |> put_flash(:info, "Book updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -39,12 +39,13 @@ defmodule ElibraryWeb.BookLive.FormComponent do
     end
   end
 
-  defp save_tweet(socket, :new, tweet_params) do
-    case Timeline.create_tweet(tweet_params) do
-      {:ok, _tweet} ->
+  defp save_book(socket, :new, book_params) do
+    book_params |> IO.inspect()
+    case BookService.create_book(book_params) do
+      {:ok, _book} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Tweet created successfully")
+         |> put_flash(:info, "Book created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

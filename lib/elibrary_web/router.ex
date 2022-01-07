@@ -17,12 +17,14 @@ defmodule ElibraryWeb.Router do
   scope "/", ElibraryWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", BookLive.Index, :index
     live "/books", BookLive.Index, :index
     live "/books/new", BookLive.Index, :new
     live "/books/:id/edit", BookLive.Index, :edit
-    # live "/tweets/:id", TweetLive.Show, :show
-    # live "/tweets/:id/show/edit", TweetLive.Show, :edit
+
+    live "/songs", SongLive.Index, :index
+    live "/songs/new", SongLive.Index, :new
+    live "/songs/:id/edit", SongLive.Index, :edit
   end
 
   # Other scopes may use custom stacks.
