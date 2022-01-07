@@ -1,26 +1,28 @@
-defmodule Elibrary.Book do
+defmodule Elibrary.Combo do
   use Ecto.Schema
   import Ecto.Changeset
 
   @optional_key [
-    :description,
     :label_id
   ]
 
   @required_key [
-    :name
+    :name,
+    :song_id,
+    :book_id
   ]
 
-  schema "books" do
+  schema "combo" do
     field :name, :string
-    field :description, :string
 
+    belongs_to :song, Elibrary.Song
+    belongs_to :book, Elibrary.Book
     belongs_to :label, Elibrary.Label
   end
 
   @doc false
-  def changeset(%Elibrary.Book{} = book, params \\ %{}) do
-    book
+  def changeset(%Elibrary.Combo{} = combo, params \\ %{}) do
+    combo
     |> cast(params, @optional_key ++ @required_key)
     |> validate_required(@required_key)
     |> check_body_size()

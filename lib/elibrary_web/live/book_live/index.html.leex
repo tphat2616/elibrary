@@ -1,0 +1,16 @@
+<h1>Books</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ElibraryWeb.BookLive.FormComponent,
+    id: @book.id || :new,
+    title: @page_title,
+    action: @live_action,
+    book: @book,
+    return_to: Routes.book_index_path(@socket, :index) %>
+<% end %>
+
+<div class="column column-10">
+  <%= for book <- @books do %>
+    <%= live_component @socket,  ElibraryWeb.BookLive.BookComponent, id: book.id, book: book %>
+  <% end %>
+</div>

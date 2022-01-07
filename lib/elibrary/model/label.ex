@@ -14,13 +14,14 @@ defmodule Elibrary.Label do
     field :name, :string
     field :description, :string
 
-    has_one :song, Elibrary.Song, on_delete: :delete_all
-    has_one :book, Elibrary.Book, on_delete: :delete_all
+    has_many :song, Elibrary.Song, on_delete: :delete_all
+    has_many :book, Elibrary.Book, on_delete: :delete_all
+    has_many :combo, Elibrary.Combo, on_delete: :delete_all
   end
 
   @doc false
-  def changeset(%Elibrary.Label{} = tweet, params \\ %{}) do
-    tweet
+  def changeset(%Elibrary.Label{} = label, params \\ %{}) do
+    label
     |> cast(params, @optional_key ++ @required_key)
     |> validate_required(@required_key)
     |> check_body_size()

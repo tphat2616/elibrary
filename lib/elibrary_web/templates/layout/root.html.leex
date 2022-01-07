@@ -8,18 +8,24 @@
     <%= live_title_tag assigns[:page_title] || "Elibrary", suffix: " · Phoenix Framework" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <link rel="stylesheet" href="//nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css">
+<script src="//nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"></script>
+<script src="//nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"></script>
+<style>
+  div.awesomplete {display: block}
+
+  div.awesomplete ul li p {display: block; font-size: small; margin-left: 1em}
+
+  div.awesomplete .awe-found {border: 2px solid green}
+
+  .hide-not-found div.awesomplete .awe-not-found {border-color: lightblue}
+
+  div.awesomplete .awe-not-found {border: 2px solid red}
+</style>
   </head>
   <body>
     <header>
       <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
         <a href="https://phoenixframework.org/" class="phx-logo">
           <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>

@@ -18,6 +18,11 @@ defmodule ElibraryWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/books", BookLive.Index, :index
+    live "/books/new", BookLive.Index, :new
+    live "/books/:id/edit", BookLive.Index, :edit
+    # live "/tweets/:id", TweetLive.Show, :show
+    # live "/tweets/:id/show/edit", TweetLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

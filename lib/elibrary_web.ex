@@ -37,9 +37,10 @@ defmodule ElibraryWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
-      # Include shared imports and aliases for views
-      unquote(view_helpers())
-    end
+
+        # Include shared imports and aliases for views
+        unquote(view_helpers())
+      end
   end
 
   def live_view do
@@ -83,6 +84,7 @@ defmodule ElibraryWeb do
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.LiveView.Helpers
+      import ElibraryWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
@@ -90,6 +92,7 @@ defmodule ElibraryWeb do
       import ElibraryWeb.ErrorHelpers
       import ElibraryWeb.Gettext
       alias ElibraryWeb.Router.Helpers, as: Routes
+
     end
   end
 

@@ -19,8 +19,8 @@ defmodule Elibrary.Song do
   end
 
   @doc false
-  def changeset(%Elibrary.Song{} = tweet, params \\ %{}) do
-    tweet
+  def changeset(%Elibrary.Song{} = song, params \\ %{}) do
+    song
     |> cast(params, @optional_key ++ @required_key)
     |> validate_required(@required_key)
     |> check_body_size()
