@@ -7,7 +7,7 @@ config :elibrary, Elibrary.Repo,
   database: "elibrary",
   hostname: "51.79.165.79",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 20
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

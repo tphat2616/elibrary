@@ -40,7 +40,6 @@ defmodule ElibraryWeb.SongLive.FormComponent do
   end
 
   defp save_song(socket, :new, song_params) do
-    song_params |> IO.inspect()
     case SongService.create_song(song_params) do
       {:ok, _song} ->
         {:noreply,

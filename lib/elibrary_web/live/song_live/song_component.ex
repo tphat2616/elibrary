@@ -25,6 +25,7 @@ defmodule ElibraryWeb.SongLive.SongComponent do
         <%= live_patch to: Routes.song_index_path(@socket, :edit, @song.id) do %>
           <img style="height: 30px" src="/images/tag.png" class="icon-img"/>
         <% end %>
+        <b><%= @song.label_name %></b>
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ defmodule ElibraryWeb.BookLive.BookComponent do
         <%= live_patch to: Routes.book_index_path(@socket, :edit, @book.id) do %>
           <img style="height: 30px" src="/images/tag.png" class="icon-img"/>
         <% end %>
+        <b><%= @book.label_name %></b>
         </div>
       </div>
     </div>

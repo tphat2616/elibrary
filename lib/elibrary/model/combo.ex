@@ -27,6 +27,7 @@ defmodule Elibrary.Combo do
     |> validate_required(@required_key)
     |> check_body_size()
     |> unique_constraint(:name)
+    |> validate_format(:name, ~r/^[a-z0-9 ]*+$/, message: "Accepted unique lowcase!")
   end
 
   defp check_body_size(changeset) do

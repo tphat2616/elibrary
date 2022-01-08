@@ -5,8 +5,8 @@ defmodule Elibrary.BookService do
 
   import Ecto.Query, warn: false
   alias Elibrary.Repo
-
   alias Elibrary.Book
+  import Ecto.Query
 
   @doc """
   Returns the list of books.
@@ -18,7 +18,16 @@ defmodule Elibrary.BookService do
 
   """
   def list_books do
-    Repo.all(Book)
+    query = "
+      select b.id, b.name, b.description, b.label_id, l.name as label_name
+      from books as b
+      left join labels as l
+      on b.label_id = l.id
+      group by b.id, l.name
+      order by b.id limit 20;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [])
+    Enum.map(result.rows, &Repo.load(Book, {result.columns, &1}))
   end
 
   @doc """
@@ -89,7 +98,7 @@ defmodule Elibrary.BookService do
     Repo.delete(babel)
   end
 
-    @doc """
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking book changes.
 
   ## Examples

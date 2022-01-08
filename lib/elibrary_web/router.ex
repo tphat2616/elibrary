@@ -25,6 +25,10 @@ defmodule ElibraryWeb.Router do
     live "/songs", SongLive.Index, :index
     live "/songs/new", SongLive.Index, :new
     live "/songs/:id/edit", SongLive.Index, :edit
+
+    live "/labels", LabelLive.Index, :index
+
+    live "/search", SearchLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

@@ -4,7 +4,8 @@ defmodule Elibrary.Song do
 
   @optional_key [
     :description,
-    :label_id
+    :label_id,
+    :label_name
   ]
 
   @required_key [
@@ -14,6 +15,7 @@ defmodule Elibrary.Song do
   schema "songs" do
     field :name, :string
     field :description, :string
+    field :label_name, :string
 
     belongs_to :label, Elibrary.Label
   end
@@ -25,6 +27,7 @@ defmodule Elibrary.Song do
     |> validate_required(@required_key)
     |> check_body_size()
     |> unique_constraint(:name)
+    |> validate_format(:name, ~r/^[a-z0-9 ]*+$/, message: "Accepted unique lowcase!")
   end
 
   defp check_body_size(changeset) do

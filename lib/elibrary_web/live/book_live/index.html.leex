@@ -11,8 +11,12 @@
   Combo
   <% end %>
   |
-  <%= live_patch class: "", to: Routes.book_index_path(@socket, :index) do %>
-  Search page
+  <%= live_patch class: "", to: Routes.label_index_path(@socket, :index) do %>
+  Labels
+  <% end %>
+  |
+  <%= live_patch class: "", to: Routes.search_index_path(@socket, :index) do %>
+  Search
   <% end %>
 </h1>
 <button style="background-color: white"><%= live_patch "New Book", to: Routes.book_index_path(@socket, :new) %></button>

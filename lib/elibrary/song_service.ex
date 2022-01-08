@@ -18,7 +18,16 @@ defmodule Elibrary.SongService do
 
   """
   def list_songs do
-    Repo.all(Song)
+    query = "
+      select s.id, s.name, s.description, s.label_id, l.name as label_name
+      from songs as s
+      left join labels as l
+      on s.label_id = l.id
+      group by s.id, l.name
+      order by s.id limit 20;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [])
+    Enum.map(result.rows, &Repo.load(Song, {result.columns, &1}))
   end
 
   @doc """
@@ -89,7 +98,7 @@ defmodule Elibrary.SongService do
     Repo.delete(babel)
   end
 
-    @doc """
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking song changes.
 
   ## Examples

@@ -40,7 +40,6 @@ defmodule ElibraryWeb.BookLive.FormComponent do
   end
 
   defp save_book(socket, :new, book_params) do
-    book_params |> IO.inspect()
     case BookService.create_book(book_params) do
       {:ok, _book} ->
         {:noreply,

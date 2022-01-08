@@ -19,18 +19,9 @@
   Search
   <% end %>
 </h1>
-<button style="background-color: white"><%= live_patch "New Song", to: Routes.song_index_path(@socket, :new) %></button>
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, ElibraryWeb.SongLive.FormComponent,
-    id: @song.id || :new,
-    title: @page_title,
-    action: @live_action,
-    song: @song,
-    return_to: Routes.song_index_path(@socket, :index) %>
-<% end %>
-
+<h3>List 10 most popular labels</h3>
 <div class="column column-10">
-  <%= for song <- @songs do %>
-    <%= live_component @socket,  ElibraryWeb.SongLive.SongComponent, id: song.id, song: song %>
+  <%= for label <- @labels do %>
+    <%= live_component @socket,  ElibraryWeb.SearchLive.LabelComponent, id: label.id, label: label %>
   <% end %>
 </div>
