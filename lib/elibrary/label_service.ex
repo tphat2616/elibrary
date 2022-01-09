@@ -90,7 +90,7 @@ defmodule Elibrary.LabelService do
 
   def get_label_by_name(name) do
     query = "select * from labels where name = $1"
-    result = Ecto.Adapters.SQL.query!(Repo, query, [name]) |> IO.inspect(label: "--------------")
+    result = Ecto.Adapters.SQL.query!(Repo, query, [name])
     Enum.map(result.rows, &map_data_to_struct_after_get_label_by_name(Label, &1))
   end
 
@@ -191,5 +191,19 @@ defmodule Elibrary.LabelService do
   defp map_data_to_struct_from_top_10(model, list) do
     [id, name, desc, _] = list
     struct(model, %{id: id, name: name, description: desc})
+  end
+
+      @doc """
+  Count all records
+  """
+
+  def sum_records() do
+    query = "
+    select count(*) from labels;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [])
+    [hd | _] = result.rows
+    [hd | _] = hd
+    hd
   end
 end

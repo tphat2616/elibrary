@@ -19,6 +19,9 @@
   Search
   <% end %>
 </h1>
+<div class="row">
+  <h4><b>20</b> of <b><%= @sum_records %> </b> songs</h4>
+</div>
 <button style="background-color: white"><%= live_patch "New Song", to: Routes.song_index_path(@socket, :new) %></button>
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, ElibraryWeb.SongLive.FormComponent,
@@ -28,7 +31,6 @@
     song: @song,
     return_to: Routes.song_index_path(@socket, :index) %>
 <% end %>
-
 <div class="column column-10">
   <%= for song <- @songs do %>
     <%= live_component @socket,  ElibraryWeb.SongLive.SongComponent, id: song.id, song: song %>

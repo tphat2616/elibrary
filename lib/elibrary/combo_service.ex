@@ -24,7 +24,7 @@ defmodule Elibrary.ComboService do
       left join labels as l
       on c.label_id = l.id
       group by c.id, c.name, c.label_id, l.name
-      order by c.id limit 20;
+      order by 1 desc limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
     Enum.map(result.rows, &map_data_to_struct(Combo, &1))

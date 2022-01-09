@@ -24,7 +24,7 @@ defmodule Elibrary.SongService do
       left join labels as l
       on s.label_id = l.id
       group by s.id, l.name
-      order by s.id limit 20;
+      order by 1 desc limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
     Enum.map(result.rows, &map_data_to_struct(Song, &1))
@@ -64,6 +64,7 @@ defmodule Elibrary.SongService do
 
   """
   def create_song(attrs \\ %{}) do
+    attrs = BookService.map_label_name_to_label_id(attrs)
     %Song{}
     |> Song.changeset(attrs)
     |> Repo.insert()
@@ -82,6 +83,7 @@ defmodule Elibrary.SongService do
 
   """
   def update_song(%Song{} = song, attrs) do
+    attrs = BookService.map_label_name_to_label_id(attrs)
     song
     |> Song.changeset(attrs)
     |> Repo.update()
@@ -114,5 +116,18 @@ defmodule Elibrary.SongService do
   """
   def change_song(%Song{} = song, attrs \\ %{}) do
     Song.changeset(song, attrs)
+  end
+    @doc """
+  Count all records
+  """
+
+  def sum_records() do
+    query = "
+    select count(*) from songs;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [])
+    [hd | _] = result.rows
+    [hd | _] = hd
+    hd
   end
 end

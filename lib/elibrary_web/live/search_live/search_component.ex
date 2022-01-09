@@ -8,14 +8,14 @@ defmodule ElibraryWeb.SearchLive.SearchComponent do
         <div class="column column-20">
           <img src="/images/options.png" class="post-avatar"/>
         </div>
-        <b><%= @label.name %></b>
+        <h4 class="title-name"><b><%= @label.name %></b></h4>
       </div>
-      <div class="row">
+      <div class="row description">
         <div class="column column-90 post-body">
           <%= if @label.description != nil do %>
-            <b><%= @label.description %></b>
+            <span><%= @label.description %></span>
           <% else %>
-            <b>...</b>
+            <span>...</span>
           <% end %>
         </div>
       </div>

@@ -31,6 +31,25 @@ select {
 #book-form_query{
   width: 25%;
 }
+.title-name{
+  color: #453635;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.description{
+  font-style: italic;
+  font-size: 16px;
+}
+.label_tag{
+  display: flex;
+  align-items: center;
+  color: #3EA2ED;
+}
+.icon-img{
+  display: flex;
+  margin-right: 5px;
+}
 
 /* Phoenix promo and logo */
 .phx-hero {

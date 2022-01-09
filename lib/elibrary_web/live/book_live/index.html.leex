@@ -19,6 +19,9 @@
   Search
   <% end %>
 </h1>
+<div class="row">
+  <h4><b>20</b> of <b><%= @sum_records %> </b> books</h4>
+</div>
 <button style="background-color: white"><%= live_patch "New Book", to: Routes.book_index_path(@socket, :new) %></button>
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, ElibraryWeb.BookLive.FormComponent,
@@ -28,7 +31,6 @@
     book: @book,
     return_to: Routes.book_index_path(@socket, :index) %>
 <% end %>
-
 <div class="column column-10">
   <%= for book <- @books do %>
     <%= live_component @socket,  ElibraryWeb.BookLive.BookComponent, id: book.id, book: book %>

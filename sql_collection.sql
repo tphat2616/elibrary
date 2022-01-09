@@ -5,46 +5,45 @@ insert into combo(name, book_id, song_id, label_id)
     trunc(random() * 1673742 + 6737428);
 
 -- using pg_trgm
-explain analyze (select l.id, l.name, word_similarity('the', b.name) as acc, b.name as result
+explain analyze (select l.id, l.name, l.description, word_similarity('don', b.name) as acc, b.name as result
         from books as b
         join labels as l
         on b.label_id = l.id
-        where b.name like '%the%'
-        order by word_similarity('the', b.name) desc
+        where b.name like '%don%'
+        order by word_similarity('don', b.name) desc
         ) union
-    (select l.id, l.name, word_similarity('the', s.name) as acc, s.name as result
+    (select l.id, l.name, l.description, word_similarity('don', s.name) as acc, s.name as result
         from songs as s
         join labels as l
         on s.label_id = l.id
-        where s.name like '%the%'
-        order by word_similarity('the', s.name) desc
+        where s.name like '%don%'
+        order by word_similarity('don', s.name) desc
         ) union
-    (select l.id, l.name, word_similarity('the', c.name) as acc, c.name as result
+    (select l.id, l.name, l.description, word_similarity('don', c.name) as acc, c.name as result
         from combo as c
         join labels as l
         on c.label_id = l.id
-        where c.name like '%the%'
-        order by word_similarity('the', c.name) desc
+        where c.name like '%don%'
+        order by word_similarity('don', c.name) desc
         )
     order by acc desc
     limit 1;
-
 -- using to_tsvector
-explain analyze (select l.id, l.name, word_similarity('thinking', b.name) as acc, b.name as result
+explain analyze (select l.id, l.name, l.description, word_similarity('thinking', b.name) as acc, b.name as result
         from books as b
         join labels as l
         on b.label_id = l.id
         where to_tsquery('english', 'thinking') @@ to_tsvector('english', b.name)
         order by word_similarity('thinking', b.name) desc
         ) union
-    (select l.id, l.name, word_similarity('thinking', s.name) as acc, s.name as result
+    (select l.id, l.name, l.description, word_similarity('thinking', s.name) as acc, s.name as result
         from songs as s
         join labels as l
         on s.label_id = l.id
         where to_tsquery('english', 'thinking') @@ to_tsvector('english', s.name)
         order by word_similarity('thinking', s.name) desc
         ) union
-    (select l.id, l.name, word_similarity('thinking', c.name) as acc, c.name as result
+    (select l.id, l.name, l.description, word_similarity('thinking', c.name) as acc, c.name as result
         from combo as c
         join labels as l
         on c.label_id = l.id
@@ -83,4 +82,4 @@ join
 on sub.id = l.id
 group by l.id
 order by sum desc
-limit 10;
+limit 5;

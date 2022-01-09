@@ -9,6 +9,7 @@ defmodule ElibraryWeb.LabelLive.Index do
     {:ok,
      socket
      |> assign(:labels, labels)
+     |> assign(:sum_records, Number.Delimit.number_to_delimited(LabelService.sum_records(), precision: 0))
     }
   end
 

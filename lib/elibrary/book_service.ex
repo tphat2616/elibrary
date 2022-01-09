@@ -25,7 +25,7 @@ defmodule Elibrary.BookService do
       left join labels as l
       on b.label_id = l.id
       group by b.id, l.name
-      order by b.id limit 20;
+      order by 1 desc limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
     Enum.map(result.rows, &map_data_to_struct(Book, &1))
@@ -78,6 +78,7 @@ defmodule Elibrary.BookService do
 
   """
   def create_book(attrs \\ %{}) do
+    attrs = map_label_name_to_label_id(attrs)
     %Book{}
     |> Book.changeset(attrs)
     |> Repo.insert()
@@ -96,6 +97,17 @@ defmodule Elibrary.BookService do
 
   """
   def update_book(%Book{} = book, attrs) do
+    attrs = map_label_name_to_label_id(attrs)
+    book
+    |> Book.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Map label name to label id
+  """
+
+  def map_label_name_to_label_id(attrs) do
     label_id =
       if attrs["label_name"] != nil do
         if LabelService.get_label_by_name(attrs["label_name"]) != [] do
@@ -107,10 +119,7 @@ defmodule Elibrary.BookService do
       else
         nil
     end
-    attrs = Map.put(attrs, "label_id", label_id) |> IO.inspect()
-    book
-    |> Book.changeset(attrs)
-    |> Repo.update()
+    Map.put(attrs, "label_id", label_id) |> IO.inspect(label: "--------------------")
   end
 
   @doc """
@@ -140,5 +149,19 @@ defmodule Elibrary.BookService do
   """
   def change_book(%Book{} = book, attrs \\ %{}) do
     Book.changeset(book, attrs)
+  end
+
+  @doc """
+  Count all records
+  """
+
+  def sum_records() do
+    query = "
+    select count(*) from books;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [])
+    [hd | _] = result.rows
+    [hd | _] = hd
+    hd
   end
 end

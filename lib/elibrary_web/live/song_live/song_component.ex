@@ -8,20 +8,20 @@ defmodule ElibraryWeb.SongLive.SongComponent do
         <div class="column column-20">
           <img src="/images/music.png" class="post-avatar"/>
         </div>
-        <b><%= @song.name %></b>
+        <h4 class="title-name"><b><%= @song.name %></b></h4>
       </div>
-      <div class="row">
+      <div class="row description">
         <div class="column column-90 post-body">
           <%= if @song.description != nil do %>
-            <b><%= @song.description %></b>
+            <span><%= @song.description %></span>
           <% else %>
-            <b>...</b>
+            <span>...</span>
           <% end %>
         </div>
       </div>
 
       <div class="row">
-        <div class="column">
+        <div class="label_tag">
         <%= live_patch to: Routes.song_index_path(@socket, :edit, @song.id) do %>
           <img style="height: 30px" src="/images/tag.png" class="icon-img"/>
         <% end %>
