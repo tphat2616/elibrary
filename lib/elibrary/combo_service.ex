@@ -14,12 +14,12 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Returns the list of combo.
-
+  
   ## Examples
-
+  
       iex> list_combo()
       [%Combo{}, ...]
-
+  
   """
   def list_combo do
     query = "
@@ -41,17 +41,17 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Gets a single combo.
-
+  
   Raises `Ecto.NoResultsError` if the combo does not exist.
-
+  
   ## Examples
-
+  
       iex> get_combo!(123)
       %Combo{}
-
+  
       iex> get_combo!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_combo!(id) do
     query = "select c.id, c.name,
@@ -75,20 +75,30 @@ defmodule Elibrary.ComboService do
 
   defp map_data_with_book_song_and_label(model, list) do
     [id, name, label_id, label_name, book_id, book_name, song_id, song_name] = list
-    struct(model, %{id: id, name: name, label_id: label_id, label_name: label_name, book_id: book_id, book_name: book_name, song_id: song_id, song_name: song_name})
+
+    struct(model, %{
+      id: id,
+      name: name,
+      label_id: label_id,
+      label_name: label_name,
+      book_id: book_id,
+      book_name: book_name,
+      song_id: song_id,
+      song_name: song_name
+    })
   end
 
   @doc """
   Creates a combo.
-
+  
   ## Examples
-
+  
       iex> create_combo(%{field: value})
       {:ok, %Combo{}}
-
+  
       iex> create_combo(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_combo(attrs \\ %{}) do
     attrs =
@@ -97,6 +107,7 @@ defmodule Elibrary.ComboService do
       |> map_book_id_by_book_name()
       |> map_song_id_by_song_name()
       |> map_book_and_song_into_combo()
+
     %Combo{}
     |> Combo.changeset(attrs)
     |> Repo.insert()
@@ -104,15 +115,15 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Updates a combo.
-
+  
   ## Examples
-
+  
       iex> update_combo(combo, %{field: new_value})
       {:ok, %Combo{}}
-
+  
       iex> update_combo(combo, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_combo(%Combo{} = combo, attrs) do
     attrs =
@@ -121,6 +132,7 @@ defmodule Elibrary.ComboService do
       |> map_book_id_by_book_name()
       |> map_song_id_by_song_name()
       |> map_book_and_song_into_combo()
+
     combo
     |> Combo.changeset(attrs)
     |> Repo.update()
@@ -128,15 +140,15 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Deletes a combo.
-
+  
   ## Examples
-
+  
       iex> delete_combo(combo)
       {:ok, %Combo{}}
-
+  
       iex> delete_combo(combo)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_combo(%Combo{} = babel) do
     Repo.delete(babel)
@@ -144,12 +156,12 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking combo changes.
-
+  
   ## Examples
-
+  
       iex> change_combo(combo)
       %Ecto.Changeset{data: %Combo{}}
-
+  
   """
   def change_combo(%Combo{} = combo, attrs \\ %{}) do
     Combo.changeset(combo, attrs)
@@ -183,7 +195,8 @@ defmodule Elibrary.ComboService do
         end
       else
         nil
-    end
+      end
+
     Map.put(attrs, "book_id", book_id)
   end
 
@@ -201,7 +214,8 @@ defmodule Elibrary.ComboService do
         end
       else
         nil
-    end
+      end
+
     Map.put(attrs, "song_id", song_id)
   end
 

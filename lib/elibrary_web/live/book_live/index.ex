@@ -7,10 +7,12 @@ defmodule ElibraryWeb.BookLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
-    socket
-    |> assign(:books, BookService.list_books())
-    |> assign(:sum_records, Number.Delimit.number_to_delimited(BookService.sum_records(), precision: 0))
-  }
+     socket
+     |> assign(:books, BookService.list_books())
+     |> assign(
+       :sum_records,
+       Number.Delimit.number_to_delimited(BookService.sum_records(), precision: 0)
+     )}
   end
 
   @impl true

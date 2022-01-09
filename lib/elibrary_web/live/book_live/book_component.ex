@@ -19,7 +19,7 @@ defmodule ElibraryWeb.BookLive.BookComponent do
           <% end %>
         </div>
       </div>
-
+    
       <div class="row">
         <div class="label_tag">
         <%= live_patch to: Routes.book_index_path(@socket, :edit, @book.id) do %>

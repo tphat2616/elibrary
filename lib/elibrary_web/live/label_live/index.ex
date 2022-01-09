@@ -6,11 +6,14 @@ defmodule ElibraryWeb.LabelLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     labels = LabelService.list_top_10_label_used_most()
+
     {:ok,
      socket
      |> assign(:labels, labels)
-     |> assign(:sum_records, Number.Delimit.number_to_delimited(LabelService.sum_records(), precision: 0))
-    }
+     |> assign(
+       :sum_records,
+       Number.Delimit.number_to_delimited(LabelService.sum_records(), precision: 0)
+     )}
   end
 
   @impl true
@@ -22,5 +25,4 @@ defmodule ElibraryWeb.LabelLive.Index do
     socket
     |> assign(:page_title, "Listing labels")
   end
-
 end

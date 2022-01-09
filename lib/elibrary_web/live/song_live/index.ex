@@ -7,9 +7,12 @@ defmodule ElibraryWeb.SongLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
-    socket
-    |> assign(:songs, SongService.list_songs())
-    |> assign(:sum_records, Number.Delimit.number_to_delimited(SongService.sum_records(), precision: 0))}
+     socket
+     |> assign(:songs, SongService.list_songs())
+     |> assign(
+       :sum_records,
+       Number.Delimit.number_to_delimited(SongService.sum_records(), precision: 0)
+     )}
   end
 
   @impl true

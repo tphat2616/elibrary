@@ -19,7 +19,7 @@ defmodule ElibraryWeb.SongLive.SongComponent do
           <% end %>
         </div>
       </div>
-
+    
       <div class="row">
         <div class="label_tag">
         <%= live_patch to: Routes.song_index_path(@socket, :edit, @song.id) do %>

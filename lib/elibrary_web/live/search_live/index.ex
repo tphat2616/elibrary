@@ -7,8 +7,7 @@ defmodule ElibraryWeb.SearchLive.Index do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:labels, [])
-    }
+     |> assign(:labels, [])}
   end
 
   @impl true

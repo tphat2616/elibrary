@@ -7,10 +7,12 @@ defmodule ElibraryWeb.ComboLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
-      socket
-      |> assign(:list_combo, ComboService.list_combo())
-      |> assign(:sum_records, Number.Delimit.number_to_delimited(ComboService.sum_records(), precision: 0))
-    }
+     socket
+     |> assign(:list_combo, ComboService.list_combo())
+     |> assign(
+       :sum_records,
+       Number.Delimit.number_to_delimited(ComboService.sum_records(), precision: 0)
+     )}
   end
 
   @impl true

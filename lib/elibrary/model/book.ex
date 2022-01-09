@@ -34,5 +34,4 @@ defmodule Elibrary.Book do
     |> validate_length(:name, mix: 1, max: 100)
     |> validate_length(:description, mix: 0, max: 200)
   end
-
 end

@@ -10,12 +10,12 @@ defmodule Elibrary.SongService do
 
   @doc """
   Returns the list of songs.
-
+  
   ## Examples
-
+  
       iex> list_songs()
       [%Song{}, ...]
-
+  
   """
   def list_songs do
     query = "
@@ -32,22 +32,29 @@ defmodule Elibrary.SongService do
 
   defp map_data_to_struct(model, list) do
     [id, name, desc, label_id, label_name] = list
-    struct(model, %{id: id, name: name, description: desc, label_id: label_id, label_name: label_name})
+
+    struct(model, %{
+      id: id,
+      name: name,
+      description: desc,
+      label_id: label_id,
+      label_name: label_name
+    })
   end
 
   @doc """
   Gets a single Song.
-
+  
   Raises `Ecto.NoResultsError` if the song does not exist.
-
+  
   ## Examples
-
+  
       iex> get_song!(123)
       %Song{}
-
+  
       iex> get_song!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_song!(id) do
     query = "select s.id, s.name, s.description, s.label_id, l.name as label_name
@@ -78,18 +85,19 @@ defmodule Elibrary.SongService do
 
   @doc """
   Creates a song.
-
+  
   ## Examples
-
+  
       iex> create_song(%{field: value})
       {:ok, %Song{}}
-
+  
       iex> create_song(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_song(attrs \\ %{}) do
     attrs = BookService.map_label_name_to_label_id(attrs)
+
     %Song{}
     |> Song.changeset(attrs)
     |> Repo.insert()
@@ -97,18 +105,19 @@ defmodule Elibrary.SongService do
 
   @doc """
   Updates a song.
-
+  
   ## Examples
-
+  
       iex> update_song(song, %{field: new_value})
       {:ok, %Song{}}
-
+  
       iex> update_song(song, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_song(%Song{} = song, attrs) do
     attrs = BookService.map_label_name_to_label_id(attrs)
+
     song
     |> Song.changeset(attrs)
     |> Repo.update()
@@ -116,15 +125,15 @@ defmodule Elibrary.SongService do
 
   @doc """
   Deletes a song.
-
+  
   ## Examples
-
+  
       iex> delete_song(song)
       {:ok, %Song{}}
-
+  
       iex> delete_song(song)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_song(%Song{} = babel) do
     Repo.delete(babel)
@@ -132,17 +141,18 @@ defmodule Elibrary.SongService do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking song changes.
-
+  
   ## Examples
-
+  
       iex> change_song(song)
       %Ecto.Changeset{data: %Song{}}
-
+  
   """
   def change_song(%Song{} = song, attrs \\ %{}) do
     Song.changeset(song, attrs)
   end
-    @doc """
+
+  @doc """
   Count all records
   """
 

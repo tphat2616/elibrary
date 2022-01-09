@@ -10,7 +10,7 @@ defmodule ElibraryWeb.ComboLive.ComboComponent do
         </div>
         <h4 class="title-name"><b><%= @combo.name %></b></h4>
       </div>
-
+    
       <div class="row">
         <div class="label_tag">
         <%= live_patch to: Routes.combo_index_path(@socket, :edit, @combo.id) do %>

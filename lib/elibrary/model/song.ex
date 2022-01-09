@@ -16,7 +16,6 @@ defmodule Elibrary.Song do
     field :description, :string
     field :label_name, :string, virtual: true
 
-
     belongs_to :label, Elibrary.Label
   end
 
