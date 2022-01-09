@@ -19,9 +19,18 @@
   Search
   <% end %>
 </h1>
-<h3>List 10 most popular labels</h3>
+<button style="background-color: white"><%= live_patch "New Combo", to: Routes.combo_index_path(@socket, :new) %></button>
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ElibraryWeb.ComboLive.FormComponent,
+    id: @combo.id || :new,
+    title: @page_title,
+    action: @live_action,
+    combo: @combo,
+    return_to: Routes.combo_index_path(@socket, :index) %>
+<% end %>
+
 <div class="column column-10">
-  <%= for label <- @labels do %>
-    <%= live_component @socket,  ElibraryWeb.SearchLive.LabelComponent, id: label.id, label: label %>
+  <%= for combo <- @list_combo do %>
+    <%= live_component @socket,  ElibraryWeb.ComboLive.ComboComponent, id: combo.id, combo: combo %>
   <% end %>
 </div>

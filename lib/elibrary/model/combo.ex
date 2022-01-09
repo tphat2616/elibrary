@@ -14,6 +14,7 @@ defmodule Elibrary.Combo do
 
   schema "combo" do
     field :name, :string
+    field :label_name, :string, virtual: true
 
     belongs_to :song, Elibrary.Song
     belongs_to :book, Elibrary.Book

@@ -4,8 +4,7 @@ defmodule Elibrary.Song do
 
   @optional_key [
     :description,
-    :label_id,
-    :label_name
+    :label_id
   ]
 
   @required_key [
@@ -15,7 +14,8 @@ defmodule Elibrary.Song do
   schema "songs" do
     field :name, :string
     field :description, :string
-    field :label_name, :string
+    field :label_name, :string, virtual: true
+
 
     belongs_to :label, Elibrary.Label
   end

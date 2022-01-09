@@ -26,6 +26,10 @@ defmodule ElibraryWeb.Router do
     live "/songs/new", SongLive.Index, :new
     live "/songs/:id/edit", SongLive.Index, :edit
 
+    live "/combo", ComboLive.Index, :index
+    live "/combo/new", ComboLive.Index, :new
+    live "/combo/:id/edit", ComboLive.Index, :edit
+
     live "/labels", LabelLive.Index, :index
 
     live "/search", SearchLive.Index, :index
