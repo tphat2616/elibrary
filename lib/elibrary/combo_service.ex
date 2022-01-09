@@ -121,38 +121,9 @@ defmodule Elibrary.ComboService do
       |> map_book_id_by_book_name()
       |> map_song_id_by_song_name()
       |> map_book_and_song_into_combo()
-    update_book_label_id(attrs)
-    update_song_label_id(attrs)
     combo
     |> Combo.changeset(attrs)
     |> Repo.update()
-  end
-
-  @doc """
-    update book label id
-  """
-  defp update_book_label_id(attrs) do
-    label_id = attrs["label_id"]
-    book_name = attrs["book_name"]
-    query = "update books set label_id = $1 where name = $2"
-    Ecto.Adapters.SQL.query!(Repo, query, [label_id, book_name])
-  end
-
-  @doc """
-    update book label id
-  """
-  defp update_song_label_id(attrs) do
-    label_id = attrs["label_id"]
-    song_name = attrs["song_name"]
-    query = "update songs set label_id = $1 where name = $2"
-    Ecto.Adapters.SQL.query!(Repo, query, [label_id, song_name])
-  end
-
-  @doc """
-    update song label id
-  """
-  defp update_song_label_id(attrs) do
-    song_name = attrs["book_name"]
   end
 
   @doc """
