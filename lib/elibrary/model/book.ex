@@ -31,8 +31,8 @@ defmodule Elibrary.Book do
 
   defp check_body_size(changeset) do
     changeset
-    |> IO.inspect()
     |> validate_length(:name, mix: 1, max: 100)
     |> validate_length(:description, mix: 0, max: 200)
   end
+
 end

@@ -5,7 +5,6 @@ defmodule Elibrary.LabelService do
 
   import Ecto.Query, warn: false
   alias Elibrary.Repo
-
   alias Elibrary.Label
 
   @doc """
@@ -89,6 +88,17 @@ defmodule Elibrary.LabelService do
     Repo.delete(label)
   end
 
+  def get_label_by_name(name) do
+    query = "select * from labels where name = $1"
+    result = Ecto.Adapters.SQL.query!(Repo, query, [name]) |> IO.inspect(label: "--------------")
+    Enum.map(result.rows, &map_data_to_struct_after_get_label_by_name(Label, &1))
+  end
+
+  defp map_data_to_struct_after_get_label_by_name(model, list) do
+    [id, name, desc] = list
+    struct(model, %{id: id, name: name, description: desc})
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking label changes.
 
@@ -108,21 +118,21 @@ defmodule Elibrary.LabelService do
 
   def search_label(key_query) do
     query = "
-    (select l.id, l.name, word_similarity($1, b.name) as acc, b.name as result
+    (select l.id, l.name, l.description, word_similarity($1, b.name) as acc, b.name as result
         from books as b
         join labels as l
         on b.label_id = l.id
         where b.name like '%' || $1 || '%'
         order by word_similarity($1, b.name) desc
         ) union
-    (select l.id, l.name, word_similarity($1, s.name) as acc, s.name as result
+    (select l.id, l.name, l.description, word_similarity($1, s.name) as acc, s.name as result
         from songs as s
         join labels as l
         on s.label_id = l.id
         where s.name like '%' || $1 || '%'
         order by word_similarity($1, s.name) desc
         ) union
-    (select l.id, l.name, word_similarity($1, c.name) as acc, c.name as result
+    (select l.id, l.name, l.description, word_similarity($1, c.name) as acc, c.name as result
         from combo as c
         join labels as l
         on c.label_id = l.id
@@ -132,13 +142,18 @@ defmodule Elibrary.LabelService do
     order by acc desc
     limit 1;
     "
-    result = Ecto.Adapters.SQL.query!(Repo, query, [key_query]) |> IO.inspect()
-    Enum.map(result.rows, &Repo.load(Label, {result.columns, &1}))
+    result = Ecto.Adapters.SQL.query!(Repo, query, [key_query])
+    Enum.map(result.rows, &map_data_to_struct_after_search(Label, &1))
+  end
+
+  defp map_data_to_struct_after_search(model, list) do
+    [id, name, desc, _, _] = list
+    struct(model, %{id: id, name: name, description: desc})
   end
 
   def list_top_10_label_used_most() do
     query = "
-      select l.id, l.name, sum(sub.tag_count) as sum
+      select l.id, l.name, l.description, sum(sub.tag_count) as sum
       from labels as l
       join
           (
@@ -170,6 +185,11 @@ defmodule Elibrary.LabelService do
       limit 10;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
-    Enum.map(result.rows, &Repo.load(Label, {result.columns, &1}))
+    Enum.map(result.rows, &map_data_to_struct_from_top_10(Label, &1))
+  end
+
+  defp map_data_to_struct_from_top_10(model, list) do
+    [id, name, desc, _] = list
+    struct(model, %{id: id, name: name, description: desc})
   end
 end

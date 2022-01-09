@@ -6,6 +6,7 @@ defmodule Elibrary.BookService do
   import Ecto.Query, warn: false
   alias Elibrary.Repo
   alias Elibrary.Book
+  alias Elibrary.LabelService
   import Ecto.Query
 
   @doc """
@@ -27,7 +28,12 @@ defmodule Elibrary.BookService do
       order by b.id limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
-    Enum.map(result.rows, &Repo.load(Book, {result.columns, &1}))
+    Enum.map(result.rows, &map_data_to_struct(Book, &1))
+  end
+
+  defp map_data_to_struct(model, list) do
+    [id, name, desc, label_id, label_name] = list
+    struct(model, %{id: id, name: name, description: desc, label_id: label_id, label_name: label_name})
   end
 
   @doc """
@@ -44,7 +50,20 @@ defmodule Elibrary.BookService do
       ** (Ecto.NoResultsError)
 
   """
-  def get_book!(id), do: Repo.get!(Book, id)
+  def get_book!(id) do
+    # Repo.get!(Book, id)
+    query = "select b.id, b.name, b.description, b.label_id, l.name as label_name
+     from books as b
+     left join labels as l
+     on b.label_id = l.id
+     where b.id = $1
+     group by 1, 2, 5;
+    "
+    result = Ecto.Adapters.SQL.query!(Repo, query, [elem(Integer.parse(id), 0)])
+    [hd | _] = Enum.map(result.rows, &map_data_to_struct(Book, &1))
+    hd
+
+  end
 
   @doc """
   Creates a book.
@@ -77,6 +96,18 @@ defmodule Elibrary.BookService do
 
   """
   def update_book(%Book{} = book, attrs) do
+    label_id =
+      if attrs["label_name"] != nil do
+        if LabelService.get_label_by_name(attrs["label_name"]) != [] do
+          [hd | _] = LabelService.get_label_by_name(attrs["label_name"])
+          hd.id
+        else
+          nil
+        end
+      else
+        nil
+    end
+    attrs = Map.put(attrs, "label_id", label_id) |> IO.inspect()
     book
     |> Book.changeset(attrs)
     |> Repo.update()

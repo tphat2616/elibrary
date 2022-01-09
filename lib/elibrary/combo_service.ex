@@ -27,7 +27,12 @@ defmodule Elibrary.ComboService do
       order by c.id limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
-    Enum.map(result.rows, &Repo.load(Combo, {result.columns, &1}))
+    Enum.map(result.rows, &map_data_to_struct(Combo, &1))
+  end
+
+  defp map_data_to_struct(model, list) do
+    [id, name, label_id, label_name] = list
+    struct(model, %{id: id, name: name, label_id: label_id, label_name: label_name})
   end
 
   @doc """

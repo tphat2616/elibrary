@@ -5,8 +5,8 @@ defmodule Elibrary.SongService do
 
   import Ecto.Query, warn: false
   alias Elibrary.Repo
-
   alias Elibrary.Song
+  alias Elibrary.BookService
 
   @doc """
   Returns the list of songs.
@@ -27,7 +27,12 @@ defmodule Elibrary.SongService do
       order by s.id limit 20;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [])
-    Enum.map(result.rows, &Repo.load(Song, {result.columns, &1}))
+    Enum.map(result.rows, &map_data_to_struct(Song, &1))
+  end
+
+  defp map_data_to_struct(model, list) do
+    [id, name, desc, label_id, label_name] = list
+    struct(model, %{id: id, name: name, description: desc, label_id: label_id, label_name: label_name})
   end
 
   @doc """
