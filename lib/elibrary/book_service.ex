@@ -51,7 +51,6 @@ defmodule Elibrary.BookService do
 
   """
   def get_book!(id) do
-    # Repo.get!(Book, id)
     query = "select b.id, b.name, b.description, b.label_id, l.name as label_name
      from books as b
      left join labels as l
@@ -62,7 +61,20 @@ defmodule Elibrary.BookService do
     result = Ecto.Adapters.SQL.query!(Repo, query, [elem(Integer.parse(id), 0)])
     [hd | _] = Enum.map(result.rows, &map_data_to_struct(Book, &1))
     hd
+  end
 
+  @doc """
+   Get book by name
+  """
+  def get_book_by_name(name) do
+    query = "select * from books where name = $1"
+    result = Ecto.Adapters.SQL.query!(Repo, query, [name])
+    Enum.map(result.rows, &map_data_to_struct_after_get_book_by_name(Book, &1))
+  end
+
+  defp map_data_to_struct_after_get_book_by_name(model, list) do
+    [id, name, desc, label_id] = list
+    struct(model, %{id: id, name: name, description: desc, label_id: label_id})
   end
 
   @doc """
@@ -119,7 +131,7 @@ defmodule Elibrary.BookService do
       else
         nil
     end
-    Map.put(attrs, "label_id", label_id) |> IO.inspect(label: "--------------------")
+    Map.put(attrs, "label_id", label_id)
   end
 
   @doc """

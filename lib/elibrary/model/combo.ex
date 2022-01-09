@@ -15,6 +15,8 @@ defmodule Elibrary.Combo do
   schema "combo" do
     field :name, :string
     field :label_name, :string, virtual: true
+    field :song_name, :string, virtual: true
+    field :book_name, :string, virtual: true
 
     belongs_to :song, Elibrary.Song
     belongs_to :book, Elibrary.Book
@@ -34,6 +36,5 @@ defmodule Elibrary.Combo do
   defp check_body_size(changeset) do
     changeset
     |> validate_length(:name, mix: 1, max: 100)
-    |> validate_length(:description, mix: 0, max: 200)
   end
 end

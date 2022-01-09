@@ -13,6 +13,7 @@ defmodule Elibrary.Label do
   schema "labels" do
     field :name, :string
     field :description, :string
+    field :sum, :integer, virtual: true
 
     has_many :song, Elibrary.Song, on_delete: :delete_all
     has_many :book, Elibrary.Book, on_delete: :delete_all

@@ -118,21 +118,21 @@ defmodule Elibrary.LabelService do
 
   def search_label(key_query) do
     query = "
-    (select l.id, l.name, l.description, word_similarity($1, b.name) as acc, b.name as result
+    (select l.id, l.name, l.description, word_similarity(b.name, $1) as acc, b.name as result
         from books as b
         join labels as l
         on b.label_id = l.id
         where b.name like '%' || $1 || '%'
         order by word_similarity($1, b.name) desc
         ) union
-    (select l.id, l.name, l.description, word_similarity($1, s.name) as acc, s.name as result
+    (select l.id, l.name, l.description, word_similarity(s.name, $1) as acc, s.name as result
         from songs as s
         join labels as l
         on s.label_id = l.id
         where s.name like '%' || $1 || '%'
         order by word_similarity($1, s.name) desc
         ) union
-    (select l.id, l.name, l.description, word_similarity($1, c.name) as acc, c.name as result
+    (select l.id, l.name, l.description, word_similarity(c.name, $1) as acc, c.name as result
         from combo as c
         join labels as l
         on c.label_id = l.id
@@ -140,14 +140,14 @@ defmodule Elibrary.LabelService do
         order by word_similarity($1, c.name) desc
         )
     order by acc desc
-    limit 1;
+    limit 3;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [key_query])
     Enum.map(result.rows, &map_data_to_struct_after_search(Label, &1))
   end
 
   defp map_data_to_struct_after_search(model, list) do
-    [id, name, desc, _, _] = list
+    [id, name, desc, _, _] = list |> IO.inspect(label: "result---------")
     struct(model, %{id: id, name: name, description: desc})
   end
 
@@ -189,12 +189,12 @@ defmodule Elibrary.LabelService do
   end
 
   defp map_data_to_struct_from_top_10(model, list) do
-    [id, name, desc, _] = list
-    struct(model, %{id: id, name: name, description: desc})
+    [id, name, desc, sum] = list
+    struct(model, %{id: id, name: name, description: desc, sum: sum})
   end
 
-      @doc """
-  Count all records
+  @doc """
+    Count all records
   """
 
   def sum_records() do

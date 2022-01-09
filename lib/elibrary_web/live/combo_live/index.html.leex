@@ -19,6 +19,9 @@
   Search
   <% end %>
 </h1>
+<div class="row">
+  <h4><b>20</b> of <b><%= @sum_records %> </b> combo</h4>
+</div>
 <button style="background-color: white"><%= live_patch "New Combo", to: Routes.combo_index_path(@socket, :new) %></button>
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, ElibraryWeb.ComboLive.FormComponent,
