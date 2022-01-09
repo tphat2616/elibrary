@@ -140,7 +140,7 @@ defmodule Elibrary.LabelService do
         order by word_similarity($1, c.name) desc
         )
     order by acc desc
-    limit 3;
+    limit 1;
     "
     result = Ecto.Adapters.SQL.query!(Repo, query, [key_query])
     Enum.map(result.rows, &map_data_to_struct_after_search(Label, &1))
