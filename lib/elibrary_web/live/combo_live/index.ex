@@ -29,7 +29,7 @@ defmodule ElibraryWeb.ComboLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Tag")
-    |> assign(:combo, ComboService.get_combo!(id))
+    |> assign(:combo, ComboService.get_combo!(elem(Integer.parse(id), 0)))
   end
 
   defp apply_action(socket, :index, _params) do

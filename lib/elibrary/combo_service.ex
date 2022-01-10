@@ -14,12 +14,12 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Returns the list of combo.
-  
+
   ## Examples
-  
+
       iex> list_combo()
       [%Combo{}, ...]
-  
+
   """
   def list_combo do
     query = "
@@ -41,17 +41,17 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Gets a single combo.
-  
+
   Raises `Ecto.NoResultsError` if the combo does not exist.
-  
+
   ## Examples
-  
+
       iex> get_combo!(123)
       %Combo{}
-  
+
       iex> get_combo!(456)
       ** (Ecto.NoResultsError)
-  
+
   """
   def get_combo!(id) do
     query = "select c.id, c.name,
@@ -68,7 +68,7 @@ defmodule Elibrary.ComboService do
      where c.id = $1
      group by 1, 2, 3, 5, 7;
     "
-    result = Ecto.Adapters.SQL.query!(Repo, query, [elem(Integer.parse(id), 0)])
+    result = Ecto.Adapters.SQL.query!(Repo, query, [id])
     [hd | _] = Enum.map(result.rows, &map_data_with_book_song_and_label(Combo, &1))
     hd
   end
@@ -90,15 +90,15 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Creates a combo.
-  
+
   ## Examples
-  
+
       iex> create_combo(%{field: value})
       {:ok, %Combo{}}
-  
+
       iex> create_combo(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def create_combo(attrs \\ %{}) do
     attrs =
@@ -115,15 +115,15 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Updates a combo.
-  
+
   ## Examples
-  
+
       iex> update_combo(combo, %{field: new_value})
       {:ok, %Combo{}}
-  
+
       iex> update_combo(combo, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def update_combo(%Combo{} = combo, attrs) do
     attrs =
@@ -140,15 +140,15 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Deletes a combo.
-  
+
   ## Examples
-  
+
       iex> delete_combo(combo)
       {:ok, %Combo{}}
-  
+
       iex> delete_combo(combo)
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def delete_combo(%Combo{} = babel) do
     Repo.delete(babel)
@@ -156,12 +156,12 @@ defmodule Elibrary.ComboService do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking combo changes.
-  
+
   ## Examples
-  
+
       iex> change_combo(combo)
       %Ecto.Changeset{data: %Combo{}}
-  
+
   """
   def change_combo(%Combo{} = combo, attrs \\ %{}) do
     Combo.changeset(combo, attrs)

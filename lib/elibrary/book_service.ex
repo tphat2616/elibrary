@@ -10,12 +10,12 @@ defmodule Elibrary.BookService do
 
   @doc """
   Returns the list of books.
-  
+
   ## Examples
-  
+
       iex> list_books()
       [%Book{}, ...]
-  
+
   """
   def list_books do
     query = "
@@ -44,17 +44,17 @@ defmodule Elibrary.BookService do
 
   @doc """
   Gets a single Book.
-  
+
   Raises `Ecto.NoResultsError` if the book does not exist.
-  
+
   ## Examples
-  
+
       iex> get_book!(123)
       %Book{}
-  
+
       iex> get_book!(456)
       ** (Ecto.NoResultsError)
-  
+
   """
   def get_book!(id) do
     query = "select b.id, b.name, b.description, b.label_id, l.name as label_name
@@ -64,7 +64,7 @@ defmodule Elibrary.BookService do
      where b.id = $1
      group by 1, 2, 5;
     "
-    result = Ecto.Adapters.SQL.query!(Repo, query, [elem(Integer.parse(id), 0)])
+    result = Ecto.Adapters.SQL.query!(Repo, query, [id])
     [hd | _] = Enum.map(result.rows, &map_data_to_struct(Book, &1))
     hd
   end
@@ -85,15 +85,15 @@ defmodule Elibrary.BookService do
 
   @doc """
   Creates a book.
-  
+
   ## Examples
-  
+
       iex> create_book(%{field: value})
       {:ok, %Book{}}
-  
+
       iex> create_book(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def create_book(attrs \\ %{}) do
     attrs = map_label_name_to_label_id(attrs)
@@ -105,15 +105,15 @@ defmodule Elibrary.BookService do
 
   @doc """
   Updates a book.
-  
+
   ## Examples
-  
+
       iex> update_book(book, %{field: new_value})
       {:ok, %Book{}}
-  
+
       iex> update_book(book, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def update_book(%Book{} = book, attrs) do
     attrs = map_label_name_to_label_id(attrs)
@@ -145,15 +145,15 @@ defmodule Elibrary.BookService do
 
   @doc """
   Deletes a book.
-  
+
   ## Examples
-  
+
       iex> delete_book(book)
       {:ok, %Book{}}
-  
+
       iex> delete_book(book)
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def delete_book(%Book{} = babel) do
     Repo.delete(babel)
@@ -161,12 +161,12 @@ defmodule Elibrary.BookService do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking book changes.
-  
+
   ## Examples
-  
+
       iex> change_book(book)
       %Ecto.Changeset{data: %Book{}}
-  
+
   """
   def change_book(%Book{} = book, attrs \\ %{}) do
     Book.changeset(book, attrs)

@@ -29,7 +29,7 @@ defmodule ElibraryWeb.SongLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Tag")
-    |> assign(:song, SongService.get_song!(id))
+    |> assign(:song, SongService.get_song!(elem(Integer.parse(id), 0)))
   end
 
   defp apply_action(socket, :index, _params) do

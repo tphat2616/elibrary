@@ -29,7 +29,7 @@ defmodule ElibraryWeb.BookLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Tag")
-    |> assign(:book, BookService.get_book!(id))
+    |> assign(:book, BookService.get_book!(elem(Integer.parse(id), 0)))
   end
 
   defp apply_action(socket, :index, _params) do
