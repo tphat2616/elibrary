@@ -3,14 +3,6 @@
 # although such is generally not recommended and you have to
 # remember to add this file to your .gitignore.
 use Mix.Config
-
-database_url =
-  System.get_env("DATABASE_URL") ||
-    raise """
-    environment variable DATABASE_URL is missing.
-    For example: ecto://USER:PASS@HOST/DATABASE
-    """
-
 config :elibrary, Elibrary.Repo,
   ssl: true,
   adapter: Ecto.Adapters.Postgres,
