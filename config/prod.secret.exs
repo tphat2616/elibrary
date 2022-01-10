@@ -12,9 +12,14 @@ database_url =
     """
 
 config :elibrary, Elibrary.Repo,
-  # ssl: true,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  ssl: true,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "09098237720aA@",
+  database: "elibrary",
+  hostname: "51.79.165.79",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 20
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
