@@ -84,7 +84,7 @@ group by l.id
 order by sum desc
 limit 10;
 
--- Optimize
+-- Optimized query clause for top 10 labels
 explain analyze select id, name, description, sum(tag_count) as sum from
     (
         (select l.id, l.name, l.description, count(*) as tag_count
