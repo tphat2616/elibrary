@@ -53,25 +53,25 @@ explain analyze (select l.id, l.name, l.description, word_similarity('thinking',
     order by acc desc
     limit 1;
 -- List 10 most popular labels that are used to tag most.
-explain analyze select l.id, l.name, sum(sub.tag_count) as sum
+explain analyze select l.id, l.name, l.description, sum(sub.tag_count) as sum
 from labels as l
 join
     (
-        (select l.id, l.name, count(*) as tag_count
+        (select l.id, l.name, l.description, count(*) as tag_count
             from labels as l
             join books as b
             on l.id = b.label_id
             group by l.id
             order by tag_count
         ) union all
-        (select l.id, l.name, count(*) as tag_count
+        (select l.id, l.name, l.description, count(*) as tag_count
             from labels as l
             join songs as s
             on l.id = s.label_id
             group by l.id
             order by tag_count
         ) union all
-        (select l.id, l.name, count(*) as tag_count
+        (select l.id, l.name, l.description, count(*) as tag_count
             from labels as l
             join combo as c
             on l.id = c.label_id
@@ -82,4 +82,33 @@ join
 on sub.id = l.id
 group by l.id
 order by sum desc
-limit 5;
+limit 10;
+
+-- Optimize
+explain analyze select id, name, description, sum(tag_count) as sum from
+    (
+        (select l.id, l.name, l.description, count(*) as tag_count
+            from labels as l
+            join books as b
+            on l.id = b.label_id
+            group by l.id
+            order by tag_count
+        ) union all
+        (select l.id, l.name, l.description, count(*) as tag_count
+            from labels as l
+            join songs as s
+            on l.id = s.label_id
+            group by l.id
+            order by tag_count
+        ) union all
+        (select l.id, l.name, l.description, count(*) as tag_count
+            from labels as l
+            join combo as c
+            on l.id = c.label_id
+            group by l.id
+            order by tag_count
+        )
+    ) as sub
+    group by 1, 2, 3
+    order by sum desc
+    limit 10;

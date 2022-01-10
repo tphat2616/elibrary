@@ -153,34 +153,31 @@ defmodule Elibrary.LabelService do
 
   def list_top_10_label_used_most() do
     query = "
-      select l.id, l.name, l.description, sum(sub.tag_count) as sum
-      from labels as l
-      join
-          (
-              (select l.id, l.name, count(*) as tag_count
-                  from labels as l
-                  join books as b
-                  on l.id = b.label_id
-                  group by l.id
-                  order by tag_count
-              ) union all
-              (select l.id, l.name, count(*) as tag_count
-                  from labels as l
-                  join songs as s
-                  on l.id = s.label_id
-                  group by l.id
-                  order by tag_count
-              ) union all
-              (select l.id, l.name, count(*) as tag_count
-                  from labels as l
-                  join combo as c
-                  on l.id = c.label_id
-                  group by l.id
-                  order by tag_count
-              )
-          ) as sub
-      on sub.id = l.id
-      group by l.id
+      select id, name, description, sum(tag_count) as sum from
+      (
+          (select l.id, l.name, l.description, count(*) as tag_count
+              from labels as l
+              join books as b
+              on l.id = b.label_id
+              group by l.id
+              order by tag_count
+          ) union all
+          (select l.id, l.name, l.description, count(*) as tag_count
+              from labels as l
+              join songs as s
+              on l.id = s.label_id
+              group by l.id
+              order by tag_count
+          ) union all
+          (select l.id, l.name, l.description, count(*) as tag_count
+              from labels as l
+              join combo as c
+              on l.id = c.label_id
+              group by l.id
+              order by tag_count
+          )
+      ) as sub
+      group by 1, 2, 3
       order by sum desc
       limit 10;
     "
