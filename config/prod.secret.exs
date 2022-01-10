@@ -4,7 +4,7 @@
 # remember to add this file to your .gitignore.
 use Mix.Config
 config :elibrary, Elibrary.Repo,
-  ssl: true,
+  # ssl: true,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "09098237720aA@",
