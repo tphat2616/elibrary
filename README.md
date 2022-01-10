@@ -32,29 +32,29 @@
 
 ## Database Design
 
-  ![alt text](../main/assets/static/images/db_design.JPG)
+  ![alt text](../main/assets/static/images/system_design.JPG)
 
-  Size per label:
+  * Size per label:
     * id: 8 bytes
     * name: 100 bytes
     * description: 200 bytes
     * Total: ~0.3 kb
 
-  Size per song:
-    * id: 8 bytes
-    * name: 100 bytes
-    * description: 200 bytes
-    * label_id: 8 bytes
-    * Total: ~0.3 kb
-
-  Size per book:
+  * Size per song:
     * id: 8 bytes
     * name: 100 bytes
     * description: 200 bytes
     * label_id: 8 bytes
     * Total: ~0.3 kb
 
-  Size per combo:
+  * Size per book:
+    * id: 8 bytes
+    * name: 100 bytes
+    * description: 200 bytes
+    * label_id: 8 bytes
+    * Total: ~0.3 kb
+
+  * Size per combo:
     * id: 8 bytes
     * name: 100 bytes
     * song_id: 8 bytes
@@ -91,12 +91,12 @@
     * `gin` + `string_to_array`: has some disadvantage
       - Only work with searching word by word and 
       - Not work with stop-word such as: `and`, `or`, `the` and stemming word such as: `teach` `teaching` `teaches`.
-    * `gin` + `to_tsvector`: more better but
+    * `gin` + `to_tsvector`: more better
       - work well with stop-word and stemming
-      - Only work when searching word by word.
+      - But only work when searching word by word.
     * `gin` + `pg_trgm` + `Like` operator: best solution
-      - work well with stop-word and stemming.
-      - work without a complete word.
+      - Work well with stop-word and stemming.
+      - Work without a complete word.
       - Have a few functions for supporting to calculate matching rate.
 
   * Summary, we have `Gin` + `pg_trgm` + `Like` operator for searching engine.
