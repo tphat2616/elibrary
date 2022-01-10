@@ -32,7 +32,7 @@
 
 ## Database Design
 
-  ![alt text](../main/assets/static/images/system_design.JPG)
+  ![alt text](../main/assets/static/images/db_design.JPG)
 
   * Size per label:
     * id: 8 bytes
@@ -66,7 +66,7 @@
 
   * Monolithic Architecture
 
-  ![alt text](../main/assets/static/images/db_design.JPG)
+  ![alt text](../main/assets/static/images/system_design.JPG)
 
   * Why using this architecture?
 
