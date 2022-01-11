@@ -103,7 +103,7 @@
 
 ## Scale Solutions
 
-  * Horizontal scaling or Vertical scaling with cloud elasticity.
+  * Horizontal scaling or Vertical scaling (combines cloud elasticity is an optional).
     * Choosing the appropriate solution for the situation.
 
   * Finding the bottlenecks:
@@ -120,7 +120,7 @@
         - `Write-back`: write to cache after delay write to db -> data inconsistency between cache and database.
       * Using NoSQL
         - work well only with read and write
-        - But lost ACID and data consistency of RDBMS.
+        - But lost ACID and data consistency of DBMS.
 
     * `Application architecture`
       * Change from Monolithic to Microservice  architecture.
@@ -128,6 +128,6 @@
         - Fit with large project.
         - `High availability`.
         - Flexibility in choosing the technology
-
-  * Trade off between `Performance` and  `Asynchronous`:
-    * Using message queue (RabbitMQ recommended for elixir application) to have an asynchronism.
+    * `Asynchronism`
+        - Using `message queue` (RabbitMQ recommended for elixir application) to have an asynchronism.
+  * Trade off between `Performance` and  `Scalability`:
